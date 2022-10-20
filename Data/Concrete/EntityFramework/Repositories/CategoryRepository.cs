@@ -19,6 +19,11 @@ namespace Data.Concrete.EntityFramework.Repositories
             throw new NotImplementedException();
         }
 
+        public Category Get(Expression<Func<Category, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Insert(Category category)
         {
             _object.Add(category);
