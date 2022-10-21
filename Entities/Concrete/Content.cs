@@ -15,6 +15,7 @@ namespace Entities.Concrete
         [StringLength(1000)]
         public string ContentValue { get; set; }
         public DateTime ContentDate { get; set; }
+        public bool ContentStatus { get; set; }
 
         public int HeadingId { get; set; }
         public Heading Heading { get; set; }

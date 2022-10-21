@@ -26,6 +26,11 @@ namespace Business.Concrete
             return _headingDal.List();
         }
 
+        public List<Heading> GetListByStatus()
+        {
+            return _headingDal.List(x=>x.HeadingStatus == true);
+        }
+
         public void HeadingAdd(Heading heading)
         {
             _headingDal.Insert(heading);
