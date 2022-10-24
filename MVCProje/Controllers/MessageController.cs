@@ -1,11 +1,11 @@
 ﻿using Business.Concrete;
 using Data.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using Message = Entities.Concrete.Message;
 
 namespace MVCProje.Controllers
 {
@@ -25,6 +25,18 @@ namespace MVCProje.Controllers
             return View(messageList);
         }
 
+        public ActionResult GetInboxMessageDetails(int id)
+        {
+            var messageValues = messageManager.GetById(id);
+            return View(messageValues);
+        }
+
+        public ActionResult GetSendboxMessageDetails(int id)
+        {
+            var messageValues = messageManager.GetById(id);
+            return View(messageValues);
+        }
+
         [HttpGet]
         public ActionResult NewMessage()
         {
@@ -35,8 +47,12 @@ namespace MVCProje.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {
-            return View();
+            message.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            messageManager.MessageAdd(message);
+            return RedirectToAction("Sendbox");
         }
+
+
 
     }
 }

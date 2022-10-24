@@ -18,6 +18,7 @@ namespace MVCProje.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult GetCategoryList()
         {
             var categoryValues = categoryManager.GetList();
