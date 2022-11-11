@@ -18,7 +18,7 @@ namespace Business.Concrete
         }
         public void ContentAdd(Content content)
         {
-            throw new NotImplementedException();
+            _contentDal.Insert(content);
         }
 
         public void ContentDelete(Content content)
@@ -38,7 +38,12 @@ namespace Business.Concrete
 
         public List<Content> GetList()
         {
-            throw new NotImplementedException();
+            return _contentDal.List();
+        }
+
+        public List<Content> GetListByContent(string content)
+        {
+            return _contentDal.List(x => x.ContentValue == content); ;
         }
 
         public List<Content> GetListByHeadingId(int id)

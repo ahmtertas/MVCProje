@@ -1,4 +1,6 @@
-﻿using Data.Concrete;
+﻿using Business.Concrete;
+using Data.Concrete;
+using Data.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,8 @@ namespace MVCProje.Controllers
     [AllowAnonymous]
     public class LoginController : Controller
     {
+
+        WriterLoginManager writerLoginManager = new WriterLoginManager(new EfWriterDal());
         // GET: Login
         [HttpGet]
         public ActionResult Index()
@@ -48,10 +52,8 @@ namespace MVCProje.Controllers
         [HttpPost]
         public ActionResult WriterLogin(Writer writer)
         {
-            Context context = new Context();
-            var writerUserInfo = context.Writers.FirstOrDefault
-                (x => x.WriterMail == writer.WriterMail &&
-            x.WriterPassword == writer.WriterPassword);
+
+            var writerUserInfo = writerLoginManager.GetWriter(writer.WriterMail, writer.WriterPassword);
             if (writerUserInfo != null)
             {
                 FormsAuthentication.SetAuthCookie(writerUserInfo.WriterMail, false);
@@ -62,6 +64,13 @@ namespace MVCProje.Controllers
             {
                 return RedirectToAction("WriterLogin");
             }
+        }
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            return RedirectToAction("HomePage","Test");
         }
     }
 }

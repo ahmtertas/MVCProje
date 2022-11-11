@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Data.Concrete;
 using Data.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,19 @@ namespace MVCProje.Controllers
     public class WriterPanelMessageController : Controller
     {
         MessageManager messageManager = new MessageManager(new EfMessageDal());
+        Context context = new Context();
         // GET: WriterPanelMessage
         public ActionResult Inbox()
         {
-            var messageList = messageManager.GetListInbox();
+            var writerMail = (string)Session["WriterMail"];
+            var messageList = messageManager.GetListInbox(writerMail);
             return View(messageList);
         }
 
         public ActionResult Sendbox()
         {
-            var messageList = messageManager.GetListSendbox();
+            var writerMail = (string)Session["WriterMail"];
+            var messageList = messageManager.GetListSendbox(writerMail);
             return View(messageList);
         }
 
@@ -42,14 +46,14 @@ namespace MVCProje.Controllers
         [HttpGet]
         public ActionResult NewMessage()
         {
-            var messageList = messageManager.GetListSendbox();
-            return View(messageList);
+            return View();
         }
 
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {
-            message.SenderMail = "aliyildiz@gmail.com";
+            var writerMail = (string)Session["WriterMail"];
+            message.SenderMail = writerMail;
             message.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
             messageManager.MessageAdd(message);
             return RedirectToAction("Sendbox");

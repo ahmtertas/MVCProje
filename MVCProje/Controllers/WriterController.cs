@@ -13,7 +13,6 @@ namespace MVCProje.Controllers
     {
         // GET: Writer
         WriterManager writerManager = new WriterManager(new EfWriterDal());
-        [Authorize(Roles="B")]
         public ActionResult Index()
         {
             var writerValues = writerManager.GetList();

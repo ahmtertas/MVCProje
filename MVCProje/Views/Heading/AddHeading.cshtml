@@ -17,7 +17,10 @@
         @Html.DropDownListFor(x=>x.CategoryId, (List<SelectListItem>)ViewBag.vlc, new { @class="form-control"})
         <br />
         @Html.Label("Yazar")
-        @Html.DropDownListFor(x => x.WriterId, (List<SelectListItem>)ViewBag.vlw, new { @class = "form-control" })
+        @Html.DropDownListFor("Admin Rolü",
+                    new SelectList(Enum.GetValues(typeof(Gender))),
+                    "Select Gender",
+                    new { @class = "form-control" }))
         <br />
         <button class="btn btn-info">Başlık Oluştur</button>
     </div>

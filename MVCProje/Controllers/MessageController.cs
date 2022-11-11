@@ -13,15 +13,15 @@ namespace MVCProje.Controllers
     {
         // GET: Message
         MessageManager messageManager = new MessageManager(new EfMessageDal());
-        public ActionResult Index()
+        public ActionResult Index(string mail)
         {
-            var messageList = messageManager.GetListInbox();
+            var messageList = messageManager.GetListInbox(mail);
             return View(messageList);
         }
 
-        public ActionResult Sendbox()
+        public ActionResult Sendbox(string mail)
         {
-            var messageList = messageManager.GetListSendbox();
+            var messageList = messageManager.GetListSendbox(mail);
             return View(messageList);
         }
 
@@ -38,9 +38,9 @@ namespace MVCProje.Controllers
         }
 
         [HttpGet]
-        public ActionResult NewMessage()
+        public ActionResult NewMessage(string mail)
         {
-            var messageList = messageManager.GetListSendbox();
+            var messageList = messageManager.GetListSendbox(mail);
             return View(messageList);
         }
 

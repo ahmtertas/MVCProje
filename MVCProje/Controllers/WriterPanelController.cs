@@ -2,6 +2,7 @@
 using Data.Concrete;
 using Data.EntityFramework;
 using Entities.Concrete;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,23 @@ namespace MVCProje.Controllers
     {
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+        WriterManager writerManager = new WriterManager(new EfWriterDal());
         Context context = new Context();
         // GET: WriterPanel
-        public ActionResult WriterProfile()
+        [HttpGet]
+        public ActionResult WriterProfile(int id = 0)
         {
-            return View();
+            var writerMail = (string)Session["WriterMail"];
+            id = context.Writers.Where(x => x.WriterMail == writerMail).Select(y => y.WriterId).FirstOrDefault();
+            var writerValue = writerManager.GetById(id);
+            return View(writerValue);
+        }
+        
+        [HttpPost]
+        public ActionResult WriterProfile(Writer writer)
+        {
+            writerManager.WriterUpdate(writer);
+            return RedirectToAction("AllHeading","WriterPanel");
         }
 
         public ActionResult MyHeading(string writerMail)
@@ -84,6 +97,13 @@ namespace MVCProje.Controllers
             currentHeading.HeadingStatus = false;
             headingManager.HeadingUpdate(currentHeading);
             return RedirectToAction("MyHeading");
+        }
+
+        public ActionResult AllHeading(int p = 1)
+        {
+
+            var headings = headingManager.GetList().ToPagedList(p, 3);
+            return View(headings);
         }
     }
 }

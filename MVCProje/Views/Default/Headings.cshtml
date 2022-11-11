@@ -49,7 +49,7 @@
                         @foreach(var item in Model) 
                         {
                         <li class="nav-item">
-                            <a href="/WriterPanel/MyHeading" class="nav-link">
+                            <a href="/Default/Index/@item.HeadingId" class="nav-link">
                                 <p>
                                     @item.HeadingName
                                 </p>
@@ -61,6 +61,7 @@
             </div>
         </aside>
         <div class="content-wrapper">
+            @Html.Action("Index","Default")
             <div class="content">
             </div>
         </div>

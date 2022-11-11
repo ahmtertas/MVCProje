@@ -88,5 +88,11 @@ namespace MVCProje.Controllers
             headingManager.HeadingUpdate(currentHeading);
             return RedirectToAction("Index");
         }
+
+        public ActionResult HeadingRaport ()
+        {
+            var headingValues = headingManager.GetList();
+            return View(headingValues);
+        }
     }
 }

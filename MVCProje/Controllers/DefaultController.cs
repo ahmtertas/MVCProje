@@ -12,10 +12,12 @@ namespace MVCProje.Controllers
     public class DefaultController : Controller
     {
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
+        ContentManager contentManager = new ContentManager(new EfContentDal());
         // GET: Default
-        public ActionResult Index()
+        public PartialViewResult Index(int id = 0)
         {
-            return View();
+            var contentList = contentManager.GetListByHeadingId(id);
+            return PartialView(contentList);
         }
 
         public ActionResult Headings()

@@ -1,6 +1,8 @@
 ﻿using Business.Concrete;
+using Data.Concrete;
 using Data.EntityFramework;
 using Entities.Concrete;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,12 @@ namespace MVCProje.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult GetContent(string content)
+        {
+            var values = contentManager.GetListByContent(content);
+            return View(values);
+        }
         public ActionResult ContentByHeading(int id)
         {
             var contentValues = contentManager.GetListByHeadingId(id);
